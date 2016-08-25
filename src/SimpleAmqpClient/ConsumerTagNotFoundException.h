@@ -1,4 +1,4 @@
-/* vim:set ft=cpp ts=4 sw=4 sts=4 et cindent: */
+/* vim:set ft=cpp ts=8 sw=2 sts=2 et cindent: */
 #ifndef SIMPLEAMQPCLIENT_CONSUMERTAGNOTFOUND_H
 #define SIMPLEAMQPCLIENT_CONSUMERTAGNOTFOUND_H
 /*
@@ -34,19 +34,19 @@
 #include <stdexcept>
 
 #ifdef _MSC_VER
-# pragma warning ( push )
-# pragma warning ( disable: 4251 4275 )
+#pragma warning(push)
+#pragma warning(disable : 4251 4275)
 #endif
 
-namespace AmqpClient
-{
+namespace AmqpClient {
 
-class SIMPLEAMQPCLIENT_EXPORT ConsumerTagNotFoundException : public std::runtime_error
-{
-public:
-    ConsumerTagNotFoundException() throw() : std::runtime_error("The specified consumer tag is unknown") {}
-    virtual ~ConsumerTagNotFoundException() throw() {}
+class SIMPLEAMQPCLIENT_EXPORT ConsumerTagNotFoundException
+    : public std::runtime_error {
+ public:
+  ConsumerTagNotFoundException() throw()
+      : std::runtime_error("The specified consumer tag is unknown") {}
+  virtual ~ConsumerTagNotFoundException() throw() {}
 };
 
-} // namespace AmqpClient
-#endif // SIMPLEAMQPCLIENT_CONSUMERTAGNOTFOUND_H
+}  // namespace AmqpClient
+#endif  // SIMPLEAMQPCLIENT_CONSUMERTAGNOTFOUND_H

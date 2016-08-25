@@ -1,4 +1,4 @@
-/* vim:set ft=cpp ts=4 sw=4 sts=4 et cindent: */
+/* vim:set ft=cpp ts=8 sw=2 sts=2 et cindent: */
 #ifndef SIMPLEAMQPCLIENT_VERSION_H
 #define SIMPLEAMQPCLIENT_VERSION_H
 /*
@@ -33,4 +33,4 @@
 #define SIMPLEAMQPCLIENT_VERSION_MINOR 5
 #define SIMPLEAMQPCLIENT_VERSION_PATCH 0
 
-#endif // SIMPLEAMQPCLIENT_VERSION_H
+#endif  // SIMPLEAMQPCLIENT_VERSION_H
