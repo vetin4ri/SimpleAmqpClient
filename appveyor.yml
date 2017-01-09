@@ -1,0 +1,39 @@
+version: "{build}"
+os: Visual Studio 2015
+skip_tags: true
+clone_depth: 50
+
+init:
+  - cmd: cmake --version
+  - cmd: msbuild /version
+
+cache:
+  - c:\deps\rabbitmq-c -> appveyor.yml
+
+install:
+  - cmd: git submodule update --init --recursive
+  - ps: >-
+      If (Test-Path 'c:\deps\rabbitmq-c') {
+        Write-Host "Reusing cached rabbitmq-c"
+      } Else {
+        Write-Host "Building rabbitmq-c"
+        git clone https://github.com/alanxz/rabbitmq-c.git --branch v0.8.0 --single-branch --depth 1 c:\projects\rabbitmq-c
+        New-Item -path c:\projects\rabbitmq-c\build -type directory -force
+        Set-Location -Path C:\projects\rabbitmq-c\build
+        cmake -DBUILD_API_DOCS=OFF -DBUILD_EXAMPLES=OFF -DBUILD_SHARED_LIBS=ON -DBUILD_STATIC_LIBS=OFF -DBUILD_TESTS=OFF -DBUILD_TOOLS=OFF -DENABLE_SSL_SUPPORT=ON -DCMAKE_INSTALL_PREFIX=C:\deps\rabbitmq-c -G"Visual Studio 12 2013" ..
+        cmake --build . --target INSTALL
+      }
+
+before_build:
+  - cmd: cd \projects\simpleamqpclient
+  - cmd: dir c:\Libraries\boost\lib32-msvc-12.0
+  - cmd: >-
+      cmake -G"Visual Studio 12 2013"
+      -DRabbitmqc_DIR="C:/deps/rabbitmq-c" -DRabbitmqc_LIBRARY="C:/deps/rabbitmq-c/lib/rabbitmq.4.lib"
+      -DBOOST_ROOT="C:\Libraries\boost" -DBOOST_LIBRARYDIR="C:\Libraries\boost\lib32-msvc-12.0"
+      -DBoost_USE_STATIC_LIBS="ON"
+      -DENABLE_SSL_SUPPORT=ON -DENABLE_TESTING=ON -Dgtest_force_shared_crt=ON .
+
+build:
+  project: ALL_BUILD.vcxproj
+  verbosity: normal

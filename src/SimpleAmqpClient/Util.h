@@ -28,14 +28,27 @@
  * ***** END LICENSE BLOCK *****
  */
 
-#ifdef WIN32
-#ifdef SimpleAmqpClient_EXPORTS
-#define SIMPLEAMQPCLIENT_EXPORT __declspec(dllexport)
+#if defined(_WIN32) || defined(__CYGWIN__)
+# define SAC_EXPORT_SYMBOL __declspec(dllexport)
+# define SAC_IMPORT_SYMBOL __declspec(dllimport)
 #else
-#define SIMPLEAMQPCLIENT_EXPORT __declspec(dllimport)
+# if __GNUC__ >= 4
+#  define SAC_EXPORT_SYMBOL __attribute__((visibility("default")))
+#  define SAC_IMPORT_SYMBOL __attribute__((visibility("default")))
+# else
+#  define SAC_EXPORT_SYMBOL
+#  define SAC_IMPORT_SYMBOL
+# endif
 #endif
+
+#ifndef SIMPLEAMQPCLIENT_STATIC
+# ifdef SimpleAmqpClient_EXPORTS
+#  define SIMPLEAMQPCLIENT_EXPORT SAC_EXPORT_SYMBOL
+# else
+#  define SIMPLEAMQPCLIENT_EXPORT SAC_IMPORT_SYMBOL
+# endif
 #else
-#define SIMPLEAMQPCLIENT_EXPORT
+# define SIMPLEAMQPCLIENT_EXPORT
 #endif
 
 #endif  // SIMPLEAMQPCLIENT_UTIL_H

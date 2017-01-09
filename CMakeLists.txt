@@ -69,8 +69,8 @@ endif ()
 
 option(BUILD_SHARED_LIBS "Build SimpleAmqpClient as a shared library" ON)
 
-if (WIN32 AND NOT BUILD_SHARED_LIBS)
-  message(FATAL_ERROR "The SimpleAmqpClient library cannot be built as a static library on Win32. Set BUILD_SHARED_LIBS=ON to get around this.")
+if (NOT BUILD_SHARED_LIBS)
+  add_definitions(-DSIMPLEAMQPCLIENT_STATIC)
 endif()
 
 SET(SAC_LIB_SRCS
