@@ -51,7 +51,7 @@
 
 #include <string.h>
 
-#define BROKER_HEARTBEAT 360
+#define BROKER_HEARTBEAT 30
 
 namespace AmqpClient {
 namespace Detail {
